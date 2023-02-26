@@ -1,7 +1,3 @@
-#import Oprema
-#import Radnici
-#import Korisnik
-
 currentUser = None
 
 def register():
@@ -35,7 +31,6 @@ def register():
 def login():
     user = input("Username: ")
     passw = input("Password: ")
-    logged = False
     with open("login.txt", "r") as f:
 
         for line in f.readlines():
@@ -44,25 +39,32 @@ def login():
 
             if (user == us) and (passw == pw):
                 print ("Login successful!")
-                logged = True
-                break
-
-    if logged:
-        print("Logged in successfully!")
-        currentUser = us
-        return
+                currentUser = us
+                return
     
     print("Wrong username/password")
 
 def menu():
-    print("dome")
+
+    functions = {
+        "1": login,
+        "2": register,
+        "X": exit
+    }
+
+    action = None
+    while not action in functions.keys():
+        print("(1) Prijavite se")
+        print("(2) Registrujte se")
+        print("(X) Izadjite")
+        action  = input().upper()
+
+    functions[action]()
 
 def main():
-    print()
-    print("Records of employees")
-    print()
-    #register()
-    login()
+    print("\nRecords of employees\n")
+    
+    menu()
      
 
 if __name__ == '__main__':
