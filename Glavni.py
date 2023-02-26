@@ -17,9 +17,6 @@ def register():
 
             korisnickoIme.append(a)
             sifre.append(b)
-            
-    data = dict(zip(korisnickoIme, sifre))
-    print(data)
 
     with open("login.txt", "a") as lg:
         lg.write(Username + "|" + Password + "\n")
@@ -35,7 +32,7 @@ def login():
 
         for line in f.readlines():
             us, pw = line.split("|")
-            pw = pw.replace('\n', '')
+            pw = pw.strip()
 
             if (user == us) and (passw == pw):
                 print ("Login successful!")
@@ -64,7 +61,8 @@ def menu():
 def main():
     print("\nRecords of employees\n")
     
-    menu()
+    while (1 < 2):
+        menu()
      
 
 if __name__ == '__main__':
