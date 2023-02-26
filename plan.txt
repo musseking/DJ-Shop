@@ -1,0 +1,8 @@
+DJ Shop Software:
+Napravili smo register funkciju i txt file u kome register funkcija pise korisnicko ime i sifru.
+Treba napraviti dalje:
+	- login
+	- korisnicki meni
+	- dodavanje novih stvari
+	- kupovina
+	- grafikon
