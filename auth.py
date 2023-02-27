@@ -1,5 +1,3 @@
-currentUser = None
-
 def register():
     with open("login.txt", "r") as lg:
         Username = input("Create username: ")
@@ -17,8 +15,8 @@ def register():
     with open("login.txt", "a") as lg:
         lg.write(Username + "|" + Password + "\n")
 
-    currentUser = Username
     print("Successful registration!")
+    return Username
 
     
 def login():
@@ -34,8 +32,7 @@ def login():
 
             if (user == us) and (passw == pw):
                 print ("Login successful!")
-                currentUser = us
-                return
+                return us
     
     print("Wrong username/password")
 
@@ -54,14 +51,4 @@ def menu():
         print("(X) Exit")
         action  = input().upper()
 
-    functions[action]()
-
-def main():
-    print("\nRecords of employees\n")
-    
-    while (1 < 2):
-        menu()
-     
-
-if __name__ == '__main__':
-    main()
+    return functions[action]()

@@ -2,6 +2,7 @@ DJ Shop Software:
 Napravili smo register funkciju i txt file u kome register funkcija pise korisnicko ime i sifru, ubacen login i meni.
 Treba napraviti dalje:
 	- korisnicki meni (delimicno reseno)
-	- dodavanje novih stvari
+	- admin nalog (admin nalog jedini moze da vidi opcije (Add a product, Delete product, List of products))
+	- korisnicki nalozi ne mogu da vide iste stavke kao i admin nalog (vide samo listu svih produka, svoj racun, back i exit opciju)
 	- kupovina
-	- grafikon
+	- grafikon (prikazivace koliko kog produka ima na stanju i uporedjivace cene u odnosu na odredjeni produkt)
