@@ -5,23 +5,19 @@ def register():
         Username = input("Create username: ")
         Password = input("Create password: ")
 
-        korisnickoIme = []
-        sifre = []
-
         for i in lg:
             if not '|' in i:
                 continue
 
-            a, b = i.split("|")
-            b = b.strip()
-
-            korisnickoIme.append(a)
-            sifre.append(b)
+            if Username == i.split("|")[0].strip():
+                print("Korisnicko ime je zauzeto!")
+                return
+            
 
     with open("login.txt", "a") as lg:
         lg.write(Username + "|" + Password + "\n")
 
-    currentUser = korisnickoIme
+    currentUser = Username
     print("Successful registration!")
 
     
@@ -31,6 +27,8 @@ def login():
     with open("login.txt", "r") as f:
 
         for line in f.readlines():
+            if not '|' in line:
+                continue
             us, pw = line.split("|")
             pw = pw.strip()
 
@@ -51,9 +49,9 @@ def menu():
 
     action = None
     while not action in functions.keys():
-        print("(1) Prijavite se")
-        print("(2) Registrujte se")
-        print("(X) Izadjite")
+        print("(1) Sign in")
+        print("(2) Sign up")
+        print("(X) Exit")
         action  = input().upper()
 
     functions[action]()
