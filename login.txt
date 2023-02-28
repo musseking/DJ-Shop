@@ -1,4 +1,2 @@
-
-meda|meda
-meda|medic
-meda|medanovic
+Zola|123
+a|a

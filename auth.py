@@ -15,7 +15,7 @@ def register():
     with open("login.txt", "a") as lg:
         lg.write(Username + "|" + Password + "\n")
 
-    print("Successful registration!")
+    print("Successful registration!\n")
     return Username
 
     
@@ -31,10 +31,10 @@ def login():
             pw = pw.strip()
 
             if (user == us) and (passw == pw):
-                print ("Login successful!")
+                print ("\nLogin successful!\n")
                 return us
     
-    print("Wrong username/password")
+    print("\nWrong username/password\n")
 
 def menu():
 
