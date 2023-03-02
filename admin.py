@@ -1,4 +1,4 @@
-import auth
+import auth, main
 
 def addProduct():
     productName = input("Product name: ")
@@ -9,7 +9,7 @@ def addProduct():
     with open("products.txt", "a") as prod:
         prod.write(productName + "|" + productBrand + "|" + str(productPrice) + "|" + str(productQuantity) + "\n")
     print()
-    menu()
+    adminMenu()
 
 def deleteProduct():
     a = None
@@ -29,8 +29,9 @@ def deleteProduct():
         f.write(''.join(a))
     
     print("Successfully deleted!")
+    adminMenu()
 
-                
+
 def listProducts():
 
     functions = {
@@ -46,16 +47,34 @@ def listProducts():
 
     return functions[option]()
 
-def back():
-    auth.menu()
+def back1():
+    adminMenu()
 
-def menu():
+def back2():
+   main.main()
 
+def adminMenu1():
+    functions = {
+        "1": addProduct,
+        "2": deleteProduct,
+        "3": back1
+    }
+
+    action = None
+    while not action in functions.keys():
+        print("(1) Add a product")
+        print("(2) Delete product")
+        print("(3) Back")
+        action  = input().upper()
+
+    functions[action]()
+
+def adminMenu():
     functions = {
         "1": addProduct,
         "2": deleteProduct,
         "3": listProducts,
-        "4": back,
+        "4": back2,
         "X": exit
     }
 
@@ -75,9 +94,13 @@ def showAll():
         for i, line in enumerate(f):
             print("{0}) {1}".format(i+1, line))
 
+    adminMenu1()
+
 def search():
     term = input("Search: ")
     with open("products.txt", "r") as f:
         for line in f.readlines():
             if term in line:
-                print(line)
+                print("\n" + line)
+
+    adminMenu()

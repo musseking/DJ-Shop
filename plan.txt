@@ -4,4 +4,7 @@ Treba napraviti dalje:
 	- admin nalog (admin nalog jedini moze da vidi opcije (Add a product, Delete product, List of products))
 	- korisnicki nalozi ne mogu da vide iste stavke kao i admin nalog (vide samo listu svih produka, svoj racun, back i exit opciju)
 	- kupovina
+	- korisnicki sistem je napravljen delimicno (treba dodati da kad korisnik udje u see all products ili search i nadje zeljeni produkt, da ima
+	 opcije dodaj u korpu i kad doda u korpu da ima dodatnu opciju obrisi iz korpe)
 	- grafikon (prikazivace koliko kog produka ima na stanju i uporedjivace cene u odnosu na odredjeni produkt)
+	
