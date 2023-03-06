@@ -1,16 +1,15 @@
-import auth, admin, usermenu
+import auth, products, admin
+
+currentUser = None
 
 def main():
-   
-
-    currentUser = None
-
+    global currentUser
     while not currentUser:
         currentUser = auth.menu()
     if currentUser == "admin":
         admin.adminMenu()
     else:
-        usermenu.userMenu()
+        products.userMenu()
     
 
 if __name__ == '__main__':

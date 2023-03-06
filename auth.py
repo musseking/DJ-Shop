@@ -1,38 +1,31 @@
+import json
+from hashlib import sha256
+
+with open("login.json", "r") as lg:
+    users = json.load(lg)
+
 def register():
-    with open("login.txt", "r") as lg:
-        Username = input("Create username: ")
-        Password = input("Create password: ")
+    
+    Username = input("Create username: ")
+    Password = input("Create password: ").encode("utf-8")
 
-        for i in lg:
-            if not '|' in i:
-                continue
+    if users.get(Username):
+        print("User already exists")
+        return
+    users[Username] = sha256(Password).hexdigest()
 
-            if Username == i.split("|")[0].strip():
-                print("Korisnicko ime je zauzeto!")
-                return
-            
-
-    with open("login.txt", "a") as lg:
-        lg.write(Username + "|" + Password + "\n")
+    with open("login.json", "w", encoding="utf8") as lg:
+        json.dump(users, lg)
 
     print("Successful registration!\n")
     return Username
 
-    
 def login():
     user = input("Username: ")
-    passw = input("Password: ")
-    with open("login.txt", "r") as f:
-
-        for line in f.readlines():
-            if not '|' in line:
-                continue
-            us, pw = line.split("|")
-            pw = pw.strip()
-
-            if (user == us) and (passw == pw):
-                print ("\nLogin successful!\n")
-                return us
+    passw = input("Password: ").encode("utf-8")
+    if users.get(user) == sha256(passw).hexdigest():
+        print("Logged in successfully")
+        return user
     
     print("\nWrong username/password\n")
 

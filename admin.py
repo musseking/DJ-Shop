@@ -1,4 +1,7 @@
-import auth, main
+import auth, __main__, json
+
+import products
+
 
 def addProduct():
     productName = input("Product name: ")
@@ -6,27 +9,24 @@ def addProduct():
     productPrice = float(input("Product price: "))
     productQuantity = int(input("Product quantity: "))
 
-    with open("products.txt", "a") as prod:
-        prod.write(productName + "|" + productBrand + "|" + str(productPrice) + "|" + str(productQuantity) + "\n")
+    products.products[productName] = {
+        "brand": productBrand,
+        "price": productPrice,
+        "quantity": productQuantity
+    }
+    with open("products.json", "w", encoding="utf8") as prod:
+        json.dump(products.products, prod)
+        
     print()
     adminMenu()
 
 def deleteProduct():
-    a = None
-
-    with open("products.txt", "r") as f:
-        for i, line in enumerate(f):
-            print("{0}) {1}".format(i+1, line))
-
-        f.seek(0)
-        a = f.readlines()
-        print(a)
-            
-        delete = int(input("Line to delete: "))
-        a.pop(delete - 1)
-
-    with open("products.txt", "w") as f:
-        f.write(''.join(a))
+    names = list(products.products.keys())
+    for i, x in enumerate(names):
+        print(f"{i}) {x}")
+    
+    delete = int(input("Line to delete: "))
+    del products.products[names[delete]]
     
     print("Successfully deleted!")
     adminMenu()
@@ -51,7 +51,7 @@ def back1():
     adminMenu()
 
 def back2():
-   main.main()
+   __main__.main()
 
 def adminMenu1():
     functions = {
@@ -74,7 +74,8 @@ def adminMenu():
         "1": addProduct,
         "2": deleteProduct,
         "3": listProducts,
-        "4": back2,
+        "4": orderList,
+        "5": back2,
         "X": exit
     }
 
@@ -83,24 +84,26 @@ def adminMenu():
         print("(1) Add a product")
         print("(2) Remove product")
         print("(3) List of products")
-        print("(4) Log out")
+        print("(4) Order list")
+        print("(5) Log out")
         print("(X) Exit")
         action  = input().upper()
 
     functions[action]()
 
+def orderList():
+    pass
+
 def showAll():
-    with open("products.txt", "r") as f:
-        for i, line in enumerate(f):
-            print("{0}) {1}".format(i+1, line))
+    for name, values in products.products.items():
+        print(name, values["brand"], values["price"], values["quantity"], sep="\t")
 
     adminMenu1()
 
 def search():
-    term = input("Search: ")
-    with open("products.txt", "r") as f:
-        for line in f.readlines():
-            if term in line:
-                print("\n" + line)
+    term = input("Search: ").lower()
+    for name, values in products.products.items():
+        if term in name.lower():
+            print(name, values["brand"], values["price"], values["quantity"], sep="\t")
 
     adminMenu()
