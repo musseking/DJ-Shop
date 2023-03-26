@@ -24,7 +24,7 @@ def login():
     user = input("Username: ")
     passw = input("Password: ").encode("utf-8")
     if users.get(user) == sha256(passw).hexdigest():
-        print("Logged in successfully")
+        print("Logged in successfully\n")
         return user
     
     print("\nWrong username/password\n")

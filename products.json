@@ -1,7 +1,1 @@
-{
-    "Pioneer": {
-        "brand": "Pioneer",
-        "price": 123.0,
-        "quantity": 456
-    }
-}
+{"Pioneer": {"brand": "Pioneer", "price": 123.0, "quantity": 452}, "Pioneer XDJ - 1000": {"brand": "Pioneer DJ", "price": 300000.0, "quantity": -4}, "Traktor": {"brand": "traktor", "price": 80000.0, "quantity": 0}, "Kita": {"brand": "Kitica", "price": 1.0, "quantity": -1}, "Pioneer CDJ - 3000": {"brand": "Pioneer DJ", "price": 300000.0, "quantity": -3}, "Traktor S2MK3": {"brand": "Native Instruments", "price": 200000.0, "quantity": 6}, "Pioneer X1": {"brand": "Pioneer DJ", "price": 250000.0, "quantity": 15}}

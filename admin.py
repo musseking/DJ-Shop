@@ -20,13 +20,18 @@ def addProduct():
     print()
     adminMenu()
 
-def deleteProduct():
-    names = list(products.products.keys())
-    for i, x in enumerate(names):
-        print(f"{i}) {x}")
+def removeProduct():
+    for name, values in products.products.items():
+        print(name, values["brand"], values["price"], values["quantity"], sep=" | ")
     
-    delete = int(input("Line to delete: "))
-    del products.products[names[delete]]
+    delete = input("Product to delete (Type 'none' to go back): ").lower()
+    if input == "none":
+        adminMenu()
+    for name, values in products.products.items():
+        if delete in name.lower():
+            products.products[name]["quantity"] -= 1
+    with open("products.json", "w") as f:
+        json.dump(products.products, f)
     
     print("Successfully deleted!")
     adminMenu()
@@ -56,13 +61,13 @@ def back2():
 def adminMenu1():
     functions = {
         "1": addProduct,
-        "2": deleteProduct,
+        "2": removeProduct,
         "3": back1
     }
 
     action = None
     while not action in functions.keys():
-        print("(1) Add a product")
+        print("\n(1) Add a product")
         print("(2) Delete product")
         print("(3) Back")
         action  = input().upper()
@@ -72,7 +77,7 @@ def adminMenu1():
 def adminMenu():
     functions = {
         "1": addProduct,
-        "2": deleteProduct,
+        "2": removeProduct,
         "3": listProducts,
         "4": orderList,
         "5": back2,
