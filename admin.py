@@ -1,4 +1,4 @@
-import auth, __main__, json
+import autenti, __main__, json
 
 import products
 
@@ -25,11 +25,12 @@ def removeProduct():
         print(name, values["brand"], values["price"], values["quantity"], sep=" | ")
     
     delete = input("Product to delete (Type 'none' to go back): ").lower()
+    qty = int(input("Quantity to delete: "))
     if input == "none":
         adminMenu()
     for name, values in products.products.items():
         if delete in name.lower():
-            products.products[name]["quantity"] -= 1
+            products.products[name]["quantity"] -= qty
     with open("products.json", "w") as f:
         json.dump(products.products, f)
     
@@ -56,7 +57,7 @@ def back1():
     adminMenu()
 
 def back2():
-   __main__.main()
+    autenti.menu()
 
 def adminMenu1():
     functions = {

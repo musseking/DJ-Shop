@@ -1,16 +1,18 @@
-import auth, products, admin
-
+import autenti, admin, products
 currentUser = None
+userCart = {}
 
 def main():
-    global currentUser
+    global currentUser, userCart
     while not currentUser:
-        currentUser = auth.menu()
+        currentUser = autenti.menu()
     if currentUser == "admin":
         admin.adminMenu()
     else:
         products.userMenu()
-    
+
+    userCart = autenti.getCart(currentUser)
+    return currentUser
 
 if __name__ == '__main__':
     print("\nWelcome to DJ Shop!")

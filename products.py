@@ -1,11 +1,11 @@
-import __main__, auth, admin
+import admin, __main__, autenti
+from autenti import *
 import json
 
 with open("products.json", "r") as prod:
     products = json.load(prod)
 
-with open("usercart.json", "r") as cart:
-    korpa = json.load(cart)
+
 
 def search():
     term = input("Search: ").lower()
@@ -39,7 +39,7 @@ def allProducts():
     return functions[option]()
 
 def back():
-    __main__.main()
+    menu()
 
 def userMenuBuy():
     
@@ -79,23 +79,23 @@ def userMenu():
     return functions[action]()
 
 def RemoveItem():
-    names = list(korpa[__main__.currentUser].keys())
+    names = list(__main__.userCart.keys())
     for i, x in enumerate(names):
         print(f"{i}) {x}")
     
     delete = int(input("Line to delete: "))
-    del korpa[__main__.currentUser][names[delete]]
+    del __main__.userCart[names[delete]]
     
     print("Successfully deleted!")
     userMenu()
 
 def showCart():
 
-    if not korpa.get(__main__.currentUser):
+    if not __main__.userCart:
         print("Your cart is empty!")
         return
     
-    for name, value in korpa[__main__.currentUser].items():
+    for name, value in __main__.userCart.items():
         print(name, value, sep="\t")
 
     function = {
@@ -110,6 +110,8 @@ def showCart():
 
     return function[action]()
 
+def buy():
+    pass
 
 def addToCart():
     user = __main__.currentUser
@@ -120,19 +122,18 @@ def addToCart():
     
     index = int(input("Index of product to add: "))
 
-    qt = int(input("Import quantity: "))
+    qt = int(input("Quantity to add: "))
     
-    if not(korpa.get(user)):
-        korpa[user] = {}
+    '''if not(__main__.userCart):
+        __main__.userCart = {}'''
     
     item = names[index]
-    if not korpa[user].get(item):
-        korpa[user][item] = 0
+    if not __main__.userCart.get(item):
+        __main__.userCart[item] = 0
 
-    korpa[user][item] += qt
+    __main__.userCart[item] += qt
 
-    with open("usercart.json", "w", encoding="utf8") as f:
-        json.dump(korpa, f)
+    autenti.saveCart(__main__.currentUser)
     
     print("Successfully added")
 
