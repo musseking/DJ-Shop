@@ -31,14 +31,9 @@ def register():
         json.dump(users, lg)
 
     print("Successful registration!\n")
-    with open (f"{Username}.json", "w") as f:
-        print("Your cart has been created successfully!")
     
     
     return Username
-    
-
-    
     
 
 def login():

@@ -1,4 +1,4 @@
-import admin, __main__, autenti
+import admin, __main__, autenti, graphs
 from autenti import *
 import json
 
@@ -6,18 +6,17 @@ with open("products.json", "r") as prod:
     products = json.load(prod)
 
 
-
 def search():
     term = input("Search: ").lower()
     for name, values in products.products.items():
         if term in name.lower():
-            print(name, values["brand"], values["price"], values["quantity"], sep="\t")
+            print(f'Name: {name:30}', f'Brand: {values["brand"]:30}', f'Price: {values["price"]:13.2f} RSD', f'Quantity: {values["quantity"]:7}', sep="\t")
 
     userMenu()
 
 def showAll():
     for name, values in products.items():
-        print(name, values["brand"], values["price"], values["quantity"], sep="\t" + "\n")
+        print(f'Name: {name:30}', f'Brand: {values["brand"]:30}', f'Price: {values["price"]:13.2f} RSD', f'Quantity: {values["quantity"]:7}', sep="\t")
 
     userMenuBuy()
 
@@ -38,8 +37,9 @@ def allProducts():
 
     return functions[option]()
 
-def back():
-    menu()
+def logout():
+    __main__.currentUser = None
+    __main__.main()
 
 def userMenuBuy():
     
@@ -58,13 +58,17 @@ def userMenuBuy():
 
     return functions[action]()
 
+def userSales():
+    graphs.userSales(__main__.currentUser)
+    userMenu()
 
 def userMenu():
 
     functions = {
         "1": allProducts,
         "2": showCart,
-        "3": back,
+        "3": userSales,
+        "4": logout,
         "X": exit
     }
 
@@ -72,7 +76,8 @@ def userMenu():
     while not action in functions.keys():
         print("(1) See All Products")
         print("(2) My cart")
-        print("(3) Log out")
+        print("(3) Graphs of your purchases")
+        print("(4) Log out")
         print("(X) Exit")
         action  = input().upper()
 
@@ -88,30 +93,88 @@ def RemoveItem():
     
     print("Successfully deleted!")
     userMenu()
+    return
+
+def EditQty():
+    names = list(__main__.userCart.keys())
+    for i, x in enumerate(names):
+        print(f"{i}) {x}")
+    
+    line = int(input("Line to edit: "))
+    qty = int(input("Enter new quantity: "))
+    if qty > products[names[line]]["quantity"] or qty < 0:
+        print("Invalid quantity!\n")
+        userMenu()
+        return
+
+    __main__.userCart[names[line]] = qty
+    
+    print("Successfully edited!\n")
+    userMenu()
+    return
 
 def showCart():
-
     if not __main__.userCart:
-        print("Your cart is empty!")
+        print("Your cart is empty!\n")
+        userMenu()
         return
     
+    totalPrice = 0
     for name, value in __main__.userCart.items():
-        print(name, value, sep="\t")
+        itemTotal = products[name]["price"] * value
+        totalPrice += itemTotal
+        print(f'Name: {name:30}', f'Brand: {products[name]["brand"]:30}', f'Price: {products[name]["price"]:13.2f} RSD', f'Quantity: {value:7}', f'Total: {itemTotal:13.2f} RSD', sep="\t")
+
+    print(f'Total cart price: {totalPrice:.2f} RSD')
 
     function = {
-        "1": RemoveItem,
-        "X": userMenu}
+        "1": buy,
+        "2": RemoveItem,
+        "3": EditQty,
+        "X": userMenu
+    }
 
     action = None
     while not action in function.keys():
-        print("\n(1) Remove Item")
+        print("\n(1) Buy")
+        print("(2) Remove Item")
+        print("(3) Edit Quantity")
         print("(x) Back")
         action = input().upper()
 
     return function[action]()
 
 def buy():
-    pass
+    for name, value in __main__.userCart.items():
+        if not products.get(name):
+            print(f"Item {name} does not exist anymore!")
+            showCart()
+            return
+        
+        if value > products[name]["quantity"]:
+            print(f'There is not enough quantity of {name}, there are only {products[name]["quantity"]} left!')
+            showCart()
+            return
+        
+    total = 0
+    for name, value in __main__.userCart.items():
+        products[name]["quantity"] -= value
+        total += products[name]['price'] * value
+
+    order = {
+        "name": __main__.currentUser,
+        "order": __main__.userCart,
+        "price": total
+    }
+    
+    admin.newOrder(order)
+
+    __main__.userCart = {}
+    
+    print("Thanks for buying at DJ Shop! Come back again!")
+    userMenu()
+    return
+        
 
 def addToCart():
     user = __main__.currentUser
@@ -124,10 +187,14 @@ def addToCart():
 
     qt = int(input("Quantity to add: "))
     
-    '''if not(__main__.userCart):
-        __main__.userCart = {}'''
-    
     item = names[index]
+
+    if qt < 0 or qt > products[item]["quantity"]:
+        print("Invalid quantity!\n")
+        userMenu()
+        return
+    
+
     if not __main__.userCart.get(item):
         __main__.userCart[item] = 0
 
