@@ -8,16 +8,17 @@ with open("products.json", "r") as prod:
 
 def search():
     term = input("Search: ").lower()
-    for name, values in products.products.items():
+    for name, values in products.items():
         if term in name.lower():
             print(f'Name: {name:30}', f'Brand: {values["brand"]:30}', f'Price: {values["price"]:13.2f} RSD', f'Quantity: {values["quantity"]:7}', sep="\t")
-
-    userMenu()
+    
+    print()
+    userMenuBuy()
 
 def showAll():
     for name, values in products.items():
         print(f'Name: {name:30}', f'Brand: {values["brand"]:30}', f'Price: {values["price"]:13.2f} RSD', f'Quantity: {values["quantity"]:7}', sep="\t")
-
+    print()
     userMenuBuy()
 
 def allProducts():
